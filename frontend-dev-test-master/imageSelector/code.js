@@ -1,3 +1,5 @@
+// The lis of emoticons
+// It should be passed as agrument but for now it's "hardcoded" here
 
 var imagesJSON = ([
 {
@@ -58,7 +60,9 @@ var imagesJSON = ([
 }
 ]);
 
-var cssId = 'imageSelectorCSS';  // you could encode the css path itself to generate id..
+
+//Read the file styles.css dynamically
+var cssId = 'imageSelectorCSS';  
 if (!document.getElementById(cssId))
 {
     var head  = document.getElementsByTagName('head')[0];
@@ -93,14 +97,13 @@ Handler.prototype = {
 	}
 };
 
-function Emoj(name, url) {
+function Emoticon(name, url) {
   this.name = name;
   this.url = url;
-  this.imageLoaded = false;
   this.img = new Image();
 }
  
-Emoj.prototype = {
+Emoticon.prototype = {
   loadImage: function() {
     this.img.src = this.url;
   },
@@ -132,11 +135,10 @@ EmoticonSelector.prototype = {
 		var out = "";
 		var i;
 		for(i = 0; i<imagesJSON.length; i++) {
-			var im = new Emoj (imagesJSON[i].display, imagesJSON[i].url);
+			var im = new Emoticon (imagesJSON[i].display, imagesJSON[i].url);
 			im.loadImage();
 			this.imgArray.push(im);
 		}
-		//this.createPopup();
 	},
 	
 	clicked: function (im) {
@@ -151,23 +153,13 @@ EmoticonSelector.prototype = {
 		} else if (document.selection && document.selection.createRange) {
 			document.selection.createRange().pasteHTML(im.getImage());
 		}
-		//EmoticonSelector.prototype.hideImages();
 	},
 	
 	hideImages: function (handl, sel, cont) {
 		handl.removeAllListeners();
-		//$(this.imageSelectorDiv).css({"display":"none"});
-		
-		//$( this.imageSelectorDiv ).css( "opacity:1" );
 		$(sel).css("display", "none");
 		$(cont).focus();
 		document.getSelection().removeAllRanges();
-		/*this.mouseHandler.removeAllListeners();
-		//$(this.imageSelectorDiv).css({"display":"none"});
-		
-		//$( this.imageSelectorDiv ).css( "opacity:1" );
-		$(this.imageSelectorDiv).css("opacity", "1");
-		$(this.textContainer).focus();*/
 	},
 			
 	showImages: function () {
@@ -183,8 +175,7 @@ EmoticonSelector.prototype = {
 				EmoticonSelector.prototype.clicked(im);
 				EmoticonSelector.prototype.hideImages(_this.mouseHandler, _this.imageSelectorDiv, _this.textContainer);
 			}, true);
-		});
-		//console.log($(_this.imageSelectorDiv));
+		})
 	},
 	
 
