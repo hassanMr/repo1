@@ -22,9 +22,10 @@
 
         </style>
         <script src='jquery.min.js'></script>
+        <script src='imageSelector/code.js'></script>
     </head> 
     <body>
-        <div contenteditable="true">
+        <div id="container" contenteditable="true" onmouseup="showSelector();">
             <h1>WELCOME MY SON</h1>
             <p>Lorem ipsum dolor sit amet, <b>saepe definitiones duo ne, ex cum populo</b> dissentiet, duis tollit ancillae ne mea. Te eam diceret facilis reprehendunt, id agam euripidis sed. Eu dicunt insolens mei, timeam efficiantur eos ei, vidisse definitionem ex ius. Possit fabellas et nam, per an tollit ubique noster. His posse feugiat inciderint eu, <b>qui ei appetere imperdiet gloriatur.</b> Ea sea erant tation persius, case omnis aliquip nec in.</p>
 
@@ -33,5 +34,15 @@
             <h2>What did you dream?</h2>
             <p>An has affert contentiones, mel enim animal an. Ex mei mazim oblique eleifend, munere dignissim eloquentiam vel ut. Vocent efficiendi vituperatoribus ea quo. Ei odio placerat sit, ne harum noluisse quo. Vel te offendit adipisci. Veri habeo error his no. No noluisse euripidis quaerendum sed.</p>
         </div>
+        
+        <script>
+        var selector = new EmoticonSelector($('#container'));
+        selector.loadImages();
+
+        function showSelector() {
+        	selector.showImages($('#popup_box'));
+        	loadPopupBox();
+        }
+        </script>
     </body>
 </html>
