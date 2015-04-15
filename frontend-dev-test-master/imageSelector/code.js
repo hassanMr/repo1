@@ -78,11 +78,10 @@ if (!document.getElementById(cssId))
 /*
  * Mouseclick event handler
  */
-function Handler(){
+function MouseEventHandler(){
 	this.listeners = new Array();
 }
-Handler.prototype = {
-	//Add click listener on each icon
+MouseEventHandler.prototype = {
 	addListener: function(element, event, handler, capture) {
 		element.addEventListener(event, handler, capture);
 		this.listeners.push({element: element, 
@@ -90,7 +89,6 @@ Handler.prototype = {
 						 handler: handler, 
 						 capture: capture});
 	},
-	//Remove all listener on icons in one shot
 	removeAllListeners: function() {
 		this.listeners.forEach(function(h) {
 			h.element.removeEventListener(h.event, h.handler, h.capture);
@@ -99,7 +97,6 @@ Handler.prototype = {
 	}
 };
 
-//Individual icon
 function Emoticon(name, url) {
   this.name = name;
   this.url = url;
@@ -114,7 +111,7 @@ Emoticon.prototype = {
   getImage: function() {
 	  return this.img;
   },
-  //Called to include the returned value in the original text container.
+  
   getElt: function() {
 	  return "<img src="+this.url+">";
   },
@@ -123,18 +120,17 @@ Emoticon.prototype = {
   }
 }
 
-//Image selector
 function EmoticonSelector(textContainer) {
 	this.textContainer = textContainer;
 	this.imgArray = new Array();
-	this.mouseHandler = new Handler();
+	this.mouseHandler = new MouseEventHandler();
 	
 	this.imageSelectorDiv=document.createElement('div');
 	$(this.imageSelectorDiv).addClass("popup_box").appendTo("body");
 }
 
 EmoticonSelector.prototype = {
-	//Images are loaded once
+	
 	loadImages: function () {
 		var out = "";
 		var i;
@@ -144,7 +140,7 @@ EmoticonSelector.prototype = {
 			this.imgArray.push(im);
 		}
 	},
-	//click event
+	/*
 	clicked: function (im) {
 		var sel, range, node;
 		if (window.getSelection) {
@@ -158,26 +154,50 @@ EmoticonSelector.prototype = {
 			document.selection.createRange().pasteHTML(im.getImage());
 		}
 	},
+	*/
 	
-	hideImages: function (handl, sel, cont) {
+	clicked: function (im) {
+		var sel, range, node;
+		if (window.getSelection) {
+			sel = window.getSelection();
+			if (sel.getRangeAt && sel.rangeCount) {
+				range = window.getSelection().getRangeAt(0);
+				node = range.createContextualFragment(im.getElt());
+				range.insertNode(node);
+			}
+		} /* for IE.. TBD
+		else if (document.selection && document.selection.createRange) {
+			document.selection.createRange().pasteHTML(im.getImage());
+		}*/
+	},
+	/*
+	hideDialog: function (handl, sel, cont) {
 		handl.removeAllListeners();
 		$(sel).css("display", "none");
 		$(cont).focus();
 		document.getSelection().removeAllRanges();
+	},*/
+	
+	hideDialog: function () {
+		this.mouseHandler.removeAllListeners();
+		$(this.imageSelectorDiv).css("display", "none");
+		$(this.textContainer).focus();
+		document.getSelection().removeAllRanges();
 	},
-			
-	showImages: function () {
+	
+	showDialog: function () {
 		var _this = this;
 		$(_this.imageSelectorDiv).css("display","block"); 
 		this.imgArray.forEach(function(entry) {
 			var im = entry;
-			console.log(im.getElt());
+			//console.log(im.getElt());
 			var img = im.getImage();
 			$(_this.imageSelectorDiv).prepend(img);
 			
 			_this.mouseHandler.addListener(img, 'click', function(){
-				EmoticonSelector.prototype.clicked(im);
-				EmoticonSelector.prototype.hideImages(_this.mouseHandler, _this.imageSelectorDiv, _this.textContainer);
+				_this.clicked(im);//EmoticonSelector.prototype.clicked(im);
+				//_this.hideDialog(_this.mouseHandler, _this.imageSelectorDiv, _this.textContainer);
+				_this.hideDialog();
 			}, true);
 		})
 	},
