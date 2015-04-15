@@ -82,6 +82,7 @@ function Handler(){
 	this.listeners = new Array();
 }
 Handler.prototype = {
+	//Add click listener on each icon
 	addListener: function(element, event, handler, capture) {
 		element.addEventListener(event, handler, capture);
 		this.listeners.push({element: element, 
@@ -89,6 +90,7 @@ Handler.prototype = {
 						 handler: handler, 
 						 capture: capture});
 	},
+	//Remove all listener on icons in one shot
 	removeAllListeners: function() {
 		this.listeners.forEach(function(h) {
 			h.element.removeEventListener(h.event, h.handler, h.capture);
@@ -97,6 +99,7 @@ Handler.prototype = {
 	}
 };
 
+//Individual icon
 function Emoticon(name, url) {
   this.name = name;
   this.url = url;
@@ -111,7 +114,7 @@ Emoticon.prototype = {
   getImage: function() {
 	  return this.img;
   },
-  
+  //Called to include the returned value in the original text container.
   getElt: function() {
 	  return "<img src="+this.url+">";
   },
@@ -120,6 +123,7 @@ Emoticon.prototype = {
   }
 }
 
+//Image selector
 function EmoticonSelector(textContainer) {
 	this.textContainer = textContainer;
 	this.imgArray = new Array();
@@ -130,7 +134,7 @@ function EmoticonSelector(textContainer) {
 }
 
 EmoticonSelector.prototype = {
-	
+	//Images are loaded once
 	loadImages: function () {
 		var out = "";
 		var i;
@@ -140,7 +144,7 @@ EmoticonSelector.prototype = {
 			this.imgArray.push(im);
 		}
 	},
-	
+	//click event
 	clicked: function (im) {
 		var sel, range, node;
 		if (window.getSelection) {
