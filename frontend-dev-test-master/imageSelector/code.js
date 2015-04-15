@@ -71,6 +71,9 @@ if (!document.getElementById(cssId))
     head.appendChild(link);
 }
 
+/*
+ * Mouseclick event handler
+ */
 function Handler(){
 	this.listeners = new Array();
 }
@@ -118,37 +121,9 @@ function EmoticonSelector(textContainer) {
 	this.textContainer = textContainer;
 	this.imgArray = new Array();
 	this.mouseHandler = new Handler();
-	//this.imageSelectorDiv = this.createPopup();
-	//var imageSelectorDiv = document.getElementById(devId);
 	
 	this.imageSelectorDiv=document.createElement('div');
 	$(this.imageSelectorDiv).addClass("popup_box").appendTo("body");
-    
-	
-	
-	//var $imageSelectorDiv = $("<div>", {id: "imageSel", class:"popup_box"}).appendTo('body');
-	//var $imageSelectorDiv = $('<div />').appendTo('body');
-	//document.getElementsByTagName('body')[0].appendChild($(imageSelectorDiv));
-	
-	//$( "body" ).append(this.imageSelectorDiv);
-	/*
-	var devId = 'imageSelectorDIV';  // you could encode the css path itself to generate id..
-	if (!imageSelectorDiv)
-	{
-		this.imageSelectorDiv = document.createElement('div');
-		this.imageSelectorDiv.id = devId;
-		this.imageSelectorDiv.className = 'popup_box';
-		document.getElementsByTagName('body')[0].appendChild(this.imageSelectorDiv);
-		//theDiv.append('<a id="popupBoxClose">Close</a>');  
-
-	}
-	var jqueryImgSel = $("#imageSelectorDIV");
-	*/
-	//alert($(this.imageSelectorDiv));
-	//var disp = $(this.imageSelectorDiv).css("background-color");
-	//alert(disp);
-	//$(this.imageSelectorDiv).css("display","block"); 
-	//alert(this.imageSelectorDiv);
 }
 
 EmoticonSelector.prototype = {
